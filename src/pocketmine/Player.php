@@ -2647,6 +2647,9 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer {
 
 			$this->namedtag["playerGameType"] = $this->gamemode;
 			$this->namedtag["lastPlayed"] = floor(microtime(true) * 1000);
+                        $this->namedtag["MaxHealth"] = new ShortTag("MaxHealth", (int)$this->maxHealth);
+			$this->namedtag["Health"] = new ShortTag("Health", (int)$this->health);
+			$this->namedtag["Food"] = new ShortTag("Food", (int)$this->foodLevel);
 
 			if($this->username != "" and $this->namedtag instanceof Compound){
 				$this->server->saveOfflinePlayerData($this->username, $this->namedtag, true);
@@ -3285,6 +3288,10 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer {
 		$this->dataPacket($pk);
 
 		$this->server->sendRecipeList($this);
+
+                $this->maxHealth = $nbt["MaxHealth"];
+		$this->health = $nbt["Health"];
+		$this->foodLevel = $nbt["Food"];
 
 		$this->sendSelfData();
 		$this->updateSpeed($this->movementSpeed);
